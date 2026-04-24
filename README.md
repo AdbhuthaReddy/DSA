@@ -1,6 +1,6 @@
 # DSA Practice
 
-Data Structures & Algorithms practice — problems solved at my own pace.
+Data Structures & Algorithms practice
 
 ## Folder Structure
 
