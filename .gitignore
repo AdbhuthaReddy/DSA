@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+.env
+dist/
+build/
+.pytest_cache/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+*.iml
+
+# C++
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+
+# JavaScript / TypeScript
+node_modules/
+dist/
+*.log
+package-lock.json
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
