@@ -1,6 +1,6 @@
 # DSA Practice
 
-Daily Data Structures & Algorithms practice — one problem per day.
+Data Structures & Algorithms practice — problems solved at my own pace.
 
 ## Folder Structure
 
@@ -72,27 +72,28 @@ See [progress/log.md](progress/log.md) for the full daily log.
 ## How to Add a New Problem
 
 ```powershell
-# Using the helper script
+# Scaffold README + Python solution (default)
 .\scripts\new-problem.ps1 -Topic arrays -Slug two-sum
+
+# Also scaffold a Java file alongside Python
+.\scripts\new-problem.ps1 -Topic graphs -Slug number-of-islands -Language java
+
+# Multiple extra languages
+.\scripts\new-problem.ps1 -Topic dp -Slug coin-change -Language cpp,js
 ```
 
-Or manually:
-1. Create a folder: `topics/<topic>/<problem-slug>/`
-2. Copy templates from `templates/` into the problem folder
-3. Fill in `README.md` with problem info and your approach
-4. Solve the problem in your preferred language(s)
-5. Commit with a clear message:
-   ```
-   git add .
-   git commit -m "Day XX: Two Sum (LeetCode #1) [Easy]"
-   ```
+Or manually — just create a folder and copy the files you need from `templates/`.
+
+When done, commit:
+```
+git add .
+git commit -m "Two Sum — Arrays [Easy]"
+```
 
 ## Languages
 
-- Python 3
-- Java
-- C++
-- JavaScript / TypeScript
+- **Python 3** (default)
+- Java, C++, JavaScript — added per-problem when desired
 
 ## Platforms
 

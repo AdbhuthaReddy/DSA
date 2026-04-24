@@ -1,9 +1,13 @@
 # new-problem.ps1
-# Creates a new problem folder pre-populated with template files.
+# Creates a new problem folder with README.md + Python solution by default.
+# Optionally scaffold additional languages with -Language.
 #
 # Usage:
 #   .\scripts\new-problem.ps1 -Topic arrays -Slug two-sum
-#   .\scripts\new-problem.ps1 -Topic dynamic-programming -Slug coin-change
+#   .\scripts\new-problem.ps1 -Topic graphs -Slug number-of-islands -Language java
+#   .\scripts\new-problem.ps1 -Topic dp -Slug coin-change -Language cpp,js
+#
+# -Language accepts a comma-separated list: py (default), java, cpp, js
 #
 # Available topics:
 #   arrays, strings, linked-lists, stacks-and-queues, trees,
@@ -17,7 +21,10 @@ param(
     [string]$Topic,
 
     [Parameter(Mandatory = $true)]
-    [string]$Slug
+    [string]$Slug,
+
+    # Comma-separated extra languages in addition to Python: java, cpp, js
+    [string]$Language = ""
 )
 
 $root        = Split-Path -Parent $PSScriptRoot
@@ -42,21 +49,38 @@ if (Test-Path $problemDir) {
 # Create problem directory
 New-Item -ItemType Directory -Path $problemDir | Out-Null
 
-# Copy templates
-Copy-Item "$templateDir\solution.py"         "$problemDir\solution.py"
-Copy-Item "$templateDir\Solution.java"       "$problemDir\Solution.java"
-Copy-Item "$templateDir\solution.cpp"        "$problemDir\solution.cpp"
-Copy-Item "$templateDir\solution.js"         "$problemDir\solution.js"
-Copy-Item "$templateDir\problem-README.md"   "$problemDir\README.md"
+# Always copy README + Python template
+Copy-Item "$templateDir\problem-README.md" "$problemDir\README.md"
+Copy-Item "$templateDir\solution.py"       "$problemDir\solution.py"
+
+# Copy any extra language templates requested
+$langMap = @{
+    "java" = @{ src = "Solution.java"; dest = "Solution.java" }
+    "cpp"  = @{ src = "solution.cpp";  dest = "solution.cpp"  }
+    "js"   = @{ src = "solution.js";   dest = "solution.js"   }
+}
+
+if ($Language -ne "") {
+    foreach ($lang in ($Language -split "," | ForEach-Object { $_.Trim().ToLower() })) {
+        if ($lang -eq "py") { continue }   # already added
+        if ($langMap.ContainsKey($lang)) {
+            $entry = $langMap[$lang]
+            Copy-Item "$templateDir\$($entry.src)" "$problemDir\$($entry.dest)"
+        } else {
+            Write-Host "WARNING: Unknown language '$lang' — skipped. Valid options: java, cpp, js" -ForegroundColor Yellow
+        }
+    }
+}
 
 Write-Host ""
-Write-Host "Problem created successfully!" -ForegroundColor Green
+Write-Host "Problem created!" -ForegroundColor Green
 Write-Host "  Path: $problemDir" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Files:"
 Get-ChildItem $problemDir | ForEach-Object { Write-Host "  $($_.Name)" }
 Write-Host ""
-Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "  1. Fill in README.md with the problem info and your approach"
-Write-Host "  2. Solve the problem in your preferred language(s)"
-Write-Host "  3. Commit:  git add . && git commit -m `"Day XX: <Problem Name>`""
+Write-Host "Tip: add another language later with:" -ForegroundColor Yellow
+Write-Host "  Copy-Item templates\solution.cpp topics\$Topic\$Slug\solution.cpp"
+Write-Host ""
+Write-Host "When done, commit:" -ForegroundColor Yellow
+Write-Host "  git add . ; git commit -m `"<Problem Name> — <Topic> [Easy/Medium/Hard]`""

@@ -6,10 +6,8 @@
 |-|-|
 | **Start Date** | 2026-04-24 |
 | **Total Problems Solved** | 0 |
-| **Current Streak** | 0 days |
-| **Longest Streak** | 0 days |
 
-## Daily Log
+## Log
 
-| Day | Date | Problem | Platform | Difficulty | Topic | Language(s) |
-|:---:|------|---------|----------|:----------:|-------|-------------|
+| # | Date Solved | Problem | Platform | Difficulty | Topic | Language(s) |
+|:-:|-------------|---------|----------|:----------:|-------|-------------|
